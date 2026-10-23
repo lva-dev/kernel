@@ -61,8 +61,8 @@ public:
     Expected(OkToken<T>&& value) : Expected{Move(value.value())} {}
     Expected(ErrToken<Err>&& error) : Expected{Move(error.value())} {}
 
-    bool is_ok() const { return is_ok_; }
-    bool is_err() const { return !is_ok_; }
+    auto is_ok() const -> bool { return is_ok_; }
+    auto is_err() const -> bool { return !is_ok_; }
 private:
     using OkStorage = mem::Storage<T>;
     using ErrStorage = mem::Storage<Err>;

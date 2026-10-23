@@ -32,14 +32,12 @@ public:
     
     static auto create() -> LinkedList
     {
-        KERNEL_DEBUG_UNIMPLEMENTED();
         return LinkedList{};
     }
 
-    // TODO: Implement
-    auto push(Chain& chain) -> void
+    auto push([[maybe_unused]] Chain& chain) -> void
     {
-        KERNEL_DEBUG_UNIMPLEMENTED();
+        KERNEL_DEBUG_TODO();
     }
 private:
     LinkedList() = default;

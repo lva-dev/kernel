@@ -6,7 +6,7 @@
 
 core::Expected<i32, core::String> kernel_main() {
     sched::init();
-    auto thread = sched::Thread::create(core::StringView::from("abc"));
+    [[maybe_unused]] auto thread = sched::Thread::create(core::StringView::from("abc"));
     return core::ok<i32>(0);
 }
 

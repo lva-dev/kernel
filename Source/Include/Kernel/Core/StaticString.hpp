@@ -16,7 +16,7 @@ public:
     static constexpr auto from(const char *str) -> BasicStaticString;
     static constexpr auto from(StringView str) -> BasicStaticString;
 
-    constexpr auto length() -> usize const { return length_; }
+    constexpr auto length() const -> usize { return length_; }
 private:
     CharType buffer[Capacity] = {};
     usize length_;

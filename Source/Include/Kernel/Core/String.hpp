@@ -49,7 +49,7 @@ BasicString<C>::BasicString()
 }
 
 template<class C>
-BasicString<C>::BasicString(core::StringView str)
+BasicString<C>::BasicString([[maybe_unused]] core::StringView str)
 {
     KERNEL_DEBUG_TODO();
 }

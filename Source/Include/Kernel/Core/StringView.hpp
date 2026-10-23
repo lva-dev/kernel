@@ -14,10 +14,10 @@ public:
         return BasicStringView{str};
     }
 
-    constexpr auto length() -> usize const { return length_; }
-    constexpr auto as_ptr() -> CharType * const { return str; }
-    constexpr auto as_bytes() -> const u8 * const { return reinterpret_cast<const u8 *>(str); }
-    constexpr const CharType& operator[](usize index) const { return str[index]; }
+    constexpr auto length() const -> usize { return length_; }
+    constexpr auto as_ptr() const -> const CharType * { return str; }
+    constexpr auto as_bytes() const -> const u8 * { return reinterpret_cast<const u8 *>(str); }
+    constexpr auto operator[](usize index) const -> const CharType& { return str[index]; }
 private:
     const CharType *str;
     usize length_;
@@ -28,7 +28,7 @@ private:
 using StringView = BasicStringView<char>;
 
 template<class CharType>
-constexpr BasicStringView<CharType>::BasicStringView(const CharType *str)
+constexpr BasicStringView<CharType>::BasicStringView([[maybe_unused]] const CharType *str)
 {
     KERNEL_DEBUG_TODO();
 }

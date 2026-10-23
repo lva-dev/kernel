@@ -1,0 +1,63 @@
+#pragma once
+
+#include <Kernel/Core/Mem.hpp>
+#include <Kernel/Core/Utility.hpp>
+#include <Kernel/Core/Detail/Token.hpp>
+
+namespace core
+{
+
+template<class T>
+class SomeToken : public detail::token::Token<T, SomeToken<T>>
+{
+private:
+    using Base = detail::token::Token<T, SomeToken>;
+public:
+    static constexpr auto create(T&& value) { return SomeToken{Move(value)}; }
+private:
+    using detail::token::Token<T, SomeToken>::Token;
+};
+
+template<class T>
+constexpr auto some(T&& value) -> SomeToken<T>
+{
+    return SomeToken<T>::create(Move(value));
+};
+
+class NoneToken
+{
+public:
+    static constexpr auto create() -> NoneToken
+    {
+        return NoneToken{};
+    }
+};
+
+constexpr auto none() -> NoneToken
+{
+    return NoneToken::create();
+}
+
+template<class T>
+class Optional
+{
+public:
+    constexpr Optional(SomeToken<T>&& some) : Optional{Move(some.value())} {}
+    constexpr Optional(NoneToken) : Optional{} {}
+
+    constexpr auto operator->() -> T *
+    {
+        return storage.ptr();
+    }
+private:
+    using Storage = mem::Storage<T>;
+
+    bool is_some_;
+    Storage storage;
+
+    constexpr Optional() : is_some_{false} {}
+    constexpr Optional(T&& value) : is_some_{true}, storage{Storage::initialized(Move(value))} {}
+
+};
+
+}

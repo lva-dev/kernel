@@ -1,0 +1,100 @@
+#pragma once
+
+#include <Kernel/Core/Mem.hpp>
+#include <Kernel/Core/Utility.hpp>
+#include <Kernel/Core/Detail/Token.hpp>
+
+namespace core
+{
+
+namespace detail::expected
+{
+    template<class T, class Err>
+    class ExpectedBase
+    {
+    public:
+        static auto err(Err&& error) -> class Expected;
+    };
+
+    struct ErrTag {};
+}
+
+template<class T>
+class OkToken : public detail::token::Token<T, OkToken<T>>
+{
+private:
+    using detail::token::Token<T, OkToken<T>>::Token;
+};
+
+template<class Err>
+class ErrToken : private detail::token::Token<Err, ErrToken<Err>>
+{
+private:
+    using Base = detail::token::Token<Err, ErrToken>;
+public:
+    static constexpr auto create(Err&& value) { return ErrToken{Move(value)}; }
+
+    constexpr auto value() -> Err&
+    {
+        return Base::value();
+    }
+private:
+    using typename Base::Token;
+};
+
+template<class T>
+constexpr auto ok(T&& value) -> OkToken<T>
+{
+    return OkToken<T>::create(Move(value));
+}
+
+template<class Err>
+constexpr auto err(Err&& value) -> ErrToken<Err>
+{
+    return ErrToken<Err>::create(Move(value));
+}
+
+template<class T, class Err>
+class Expected : public detail::expected::ExpectedBase<T, Err>
+{
+public:
+    Expected(OkToken<T>&& value) : Expected{Move(value.value())} {}
+    Expected(ErrToken<Err>&& error) : Expected{Move(error.value())} {}
+
+    bool is_ok() const { return is_ok_; }
+    bool is_err() const { return !is_ok_; }
+private:
+    using OkStorage = mem::Storage<T>;
+    using ErrStorage = mem::Storage<Err>;
+
+    bool is_ok_;
+    union {
+        OkStorage ok_storage;
+        ErrStorage error_storage;
+    };
+
+    Expected(T&& value)
+    : is_ok_{true}, ok_storage{OkStorage::initialized(Move(value))} {}
+    
+    Expected(detail::expected::ErrTag, Err&& error)
+    : is_ok_{false}, error_storage{ErrStorage::initialized(Move(error))} {}
+};
+
+template<class T, class Err>
+    requires __is_void(T)
+class Expected<T, Err> : public detail::expected::ExpectedBase<T, Err>
+{
+public:
+    static auto ok() -> class Expected
+    {
+        return Expected{};
+    }
+private:
+    bool is_ok_;
+    mem::Storage<Err> error_storage;
+
+    Expected() : is_ok_{true}, error_storage{} {}
+    Expected(Err&& error) : is_ok_{false}, error_storage{Move(error)} {}
+};
+
+}

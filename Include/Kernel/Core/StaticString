@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Kernel/Core/Math.hpp>
-#include <Kernel/Core/Mem.hpp>
-#include <Kernel/Core/StringView.hpp>
-#include <Kernel/Core/TypeTraits.hpp>
+#include <Kernel/Core/Math>
+#include <Kernel/Core/Memory>
+#include <Kernel/Core/StringView>
+#include <Kernel/Core/TypeTraits>
 
 namespace core
 {
@@ -60,7 +60,7 @@ constexpr BasicStaticString<C, Capacity>::BasicStaticString(StringView str)
     }
     else
     {
-        Memcpy(buffer, str.as_bytes(), length_);
+        memory::Memcpy(buffer, str.as_bytes(), length_);
     }
 }
 

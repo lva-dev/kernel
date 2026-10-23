@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Kernel/Core/Mem.hpp>
-#include <Kernel/Core/Utility.hpp>
+#include <Kernel/Core/Memory>
+#include <Kernel/Core/Utility>
 #include <Kernel/Core/Detail/Token.hpp>
 
 namespace core
@@ -50,12 +50,12 @@ public:
         return storage.ptr();
     }
 private:
-    using Storage = mem::Storage<T>;
+    using Storage = memory::Storage<T>;
 
     bool is_some_;
     Storage storage;
 
-    constexpr Optional() : is_some_{false} {}
+    constexpr Optional() : is_some_{false}, storage{Storage::uninitialized()} {}
     constexpr Optional(T&& value) : is_some_{true}, storage{Storage::initialized(Move(value))} {}
 
 };

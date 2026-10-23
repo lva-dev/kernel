@@ -1,0 +1,14 @@
+#pragma once
+
+#include <Kernel/Core/TypeTraits>
+
+namespace core
+{
+
+template<class T>
+constexpr traits::RemoveReference<T>&& Move(T&& t)
+{
+    return static_cast<typename traits::RemoveReference<T>&&>(t);
+}
+
+}

@@ -1,0 +1,21 @@
+Checks: 'core-*,cppcoreguidelines-*,modernize-*,readability-*,
+WarningsAsErrors: false
+HeaderFilterRegex: ['', 'hpp']
+ImplementationFileExtensions: ['cpp']
+HeaderFilterRegex: '.*'
+FormatStyle: none
+InheritParentConfig: false
+CheckOptions:
+  modernize-use-override.IgnoreDestructors: false
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.ConstantParameterCase: camelBack
+  readability-identifier-naming.ConstantPointerParameterCase: camelBack
+  readability-identifier-naming.FunctionCase: lower_case
+  readability-identifier-naming.MacroDefinitionCase: UPPER_CASE
+  readability-identifier-naming.ParameterCase: camelBack
+  readability-identifier-naming.PrivateMemberCase: camelBack
+  readability-identifier-naming.PrivateMemberIgnoredRegexp: '^[a-z0-9]+([A-Z0-9][a-z0-9]+)*_'
+  readability-identifier-naming.StaticConstantCase: UPPER_CASE
+  readability-identifier-naming.StaticConstexprVariableCase: UPPER_CASE
+  readability-identifier-naming.VariableCase: camelBack
+  readability-uppercase-literal-suffix.NewSuffixes: 'L;LL;LU;LLU'

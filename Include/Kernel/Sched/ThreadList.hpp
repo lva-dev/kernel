@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Kernel/Core/Optional.hpp>
+#include <Kernel/Core/Optional>
 #include <Kernel/Sched/Sched.hpp>
 #include <Kernel/Structures/ChainedLinkedList.hpp>
 
@@ -17,7 +17,7 @@ public:
     
     static auto push(Chain& thread) -> void;
 private:
-    static core::Optional<List> list;
+    constinit static core::Optional<List> list;
 
     static auto init() -> void;
 

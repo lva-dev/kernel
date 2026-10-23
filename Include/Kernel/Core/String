@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Kernel/Debug.hpp>
-#include <Kernel/Core/StringView.hpp>
+#include <Kernel/Core/StringView>
 
 namespace core
 {

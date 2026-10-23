@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Kernel/Core/StaticString.hpp>
-#include <Kernel/Core/StringView.hpp>
+#include <Kernel/Core/StaticString>
+#include <Kernel/Core/StringView>
 #include <Kernel/Sched/ThreadList.hpp>
 
 namespace sched

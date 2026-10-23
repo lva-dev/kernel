@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Kernel/Core/Mem.hpp>
-#include <Kernel/Core/Utility.hpp>
+#include <Kernel/Core/Memory>
+#include <Kernel/Core/Utility>
 #include <Kernel/Core/Detail/Token.hpp>
 
 namespace core
@@ -64,8 +64,8 @@ public:
     auto is_ok() const -> bool { return is_ok_; }
     auto is_err() const -> bool { return !is_ok_; }
 private:
-    using OkStorage = mem::Storage<T>;
-    using ErrStorage = mem::Storage<Err>;
+    using OkStorage = memory::Storage<T>;
+    using ErrStorage = memory::Storage<Err>;
 
     bool is_ok_;
     union {
@@ -91,7 +91,7 @@ public:
     }
 private:
     bool is_ok_;
-    mem::Storage<Err> error_storage;
+    memory::Storage<Err> error_storage;
 
     Expected() : is_ok_{true}, error_storage{} {}
     Expected(Err&& error) : is_ok_{false}, error_storage{Move(error)} {}

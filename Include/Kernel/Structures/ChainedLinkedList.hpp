@@ -30,7 +30,7 @@ class LinkedList
 public:
     using Chain = LinkedListChain<T>;
     
-    static auto create() -> LinkedList
+    constexpr static auto create() -> LinkedList
     {
         return LinkedList{};
     }

@@ -1,6 +1,6 @@
-#include <Kernel/Core/Expected.hpp>
-#include <Kernel/Core/String.hpp>
-#include <Kernel/Core/StringView.hpp>
+#include <Kernel/Core/Expected>
+#include <Kernel/Core/String>
+#include <Kernel/Core/StringView>
 #include <Kernel/Sched/Thread.hpp>
 #include <Kernel/Sched/ThreadList.hpp>
 

@@ -6,7 +6,7 @@ using List = sched::ThreadList::List;
 namespace sched
 {
 
-core::Optional<List> ThreadList::list = core::none();
+constinit core::Optional<List> ThreadList::list = core::none();
 
 auto ThreadList::push(Chain& thread) -> void
 {

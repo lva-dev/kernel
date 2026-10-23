@@ -1,0 +1,47 @@
+#pragma once
+
+#include <Kernel/Core/Utility>
+
+namespace core::memory
+{
+
+void *Memcpy(void *dest, const void *src, usize size);
+
+constexpr void *MemcpyConst(void *dest, const void *src, usize size)
+{
+    if consteval
+    {
+        for (usize i = 0; i < size; i++)
+        {
+            static_cast<u8 *>(dest)[i] = static_cast<const u8 *>(src)[i];
+        }
+
+        return dest;
+    }
+    else
+    {
+        return memory::Memcpy(dest, src, size);
+    }
+}
+
+template<class T>
+class Storage
+{
+public:
+    constexpr inline static usize SIZE = sizeof(T);
+
+    static constexpr auto uninitialized() { return Storage{}; }
+    static constexpr auto initialized(T&& value) { return Storage{Move(value)}; }
+
+    constexpr auto ptr() -> T * { return reinterpret_cast<T *>(&storage_); }
+    constexpr auto ptr() const -> const T * { return reinterpret_cast<T *>(&storage_); }
+    constexpr auto ref() -> T&  { return *ptr(); }
+    constexpr auto ref() const -> const T& { return *ptr(); }
+private:
+    u8 storage_[SIZE];
+
+    constexpr Storage() : storage_{} {}
+    constexpr Storage(T&& value) : storage_{} { MemcpyConst(storage_, &value, SIZE); }
+};
+
+}
